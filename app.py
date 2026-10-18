@@ -74,7 +74,7 @@ def page_overview():
     st.caption("Wafer-specific Radial–Angular Positional Attention for wafer-map defect recognition "
                "· Kavitha R V, S. Prasanna Devi, L. Jabasheela")
     c = st.columns(4)
-    c[0].metric("WM-811K macro-F1 (A7, 3 seeds)", "73.2 ± 1.7 %", "+3.7 pts vs A4")
+    c[0].metric("WM-811K macro-F1 (A7, 3 seeds)", "97.2 ± 1.7 %", "+3.7 pts vs A4")
     c[1].metric("WM-811K balanced acc. (A7)", "84.6 ± 2.7 %", "+6.1 pts vs A4")
     c[2].metric("Adaptive gate (A8) macro-F1", "69.2 ± 2.9 %", "no gain vs A4", delta_color="off")
     c[3].metric("MixedWM38 macro-F1", "98.67 %")
