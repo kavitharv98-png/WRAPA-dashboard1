@@ -23,7 +23,6 @@ DIST = pd.DataFrame({
     "Test": [22115, 1452, 779, 644, 539, 179, 130, 83, 22],
     "Loss weight": [0.130, 1.985, 3.704, 4.475, 5.349, 16.110, 22.198, 34.580, 129.343],
 })
-# Values transcribed from the corrected Phase I report (Tables 4.3–4.5).
 ABL = pd.DataFrame({
     "Variant": ["Cartesian (XY) only", "Radial only", "Angular only", "Radial + Angular", "WRAPA (learnable XY + R + A)"],
     "Accuracy": [.9797, .9799, .9798, .9802, .9866],
@@ -103,7 +102,7 @@ def page_overview():
         st.markdown("**MixedWM38 · multi-label, eight base defects**")
         st.dataframe(pd.DataFrame([{"Metric": k, "Reported value": v} for k,v in MIX_OVERALL.items()]), hide_index=True, width="stretch")
         st.caption("Report Table 4.6: test set n=5,703; decision threshold 0.5.")
-    st.info("Values are transcribed from the corrected Phase I report. WM-811K mean test metrics and best validation checkpoint scores are distinct measures; do not compare them directly.")
+    st.info("Best validation checkpoint scores are distinct measures; do not compare them directly.")
 
 
 def page_dataset():
@@ -113,7 +112,7 @@ def page_dataset():
     st.markdown("**Task:** nine-class single-label classification: eight defect patterns plus `none`. **Input:** 64 × 64 grayscale images. **Output:** nine-way softmax. **Evaluation:** held-out split with three random seeds (42, 123, 2024).")
     st.markdown("**Defect labels:** " + ", ".join(CLASSES))
     st.info("The labelled subset is strongly imbalanced. Macro-F1 is therefore reported alongside overall accuracy and Weighted-F1.")
-    st.caption("Source: corrected Phase I report, Tables 4.1–4.3. Legacy 224 × 224 class counts have been removed because they do not describe the corrected 64 × 64 protocol.")
+    
 
 
 def page_ablation():
@@ -139,7 +138,7 @@ def page_seeds():
     fig.update_yaxes(range=[0, .85], tickformat=".0%")
     st.plotly_chart(fig, width="stretch")
     st.dataframe(CHECKPOINTS.style.format({"Best validation Macro-F1":"{:.2%}"}), hide_index=True, width="stretch")
-    st.info("The checkpoint scores above are validation results. The 98.66% WM-811K accuracy on the Overview page is the report's mean accuracy and is not a validation Macro-F1 score.")
+    
 
 
 def page_gates():
@@ -176,12 +175,11 @@ def page_mixed():
         fig = px.line(MIX_TH, x="Threshold", y=["Macro-F1", "Micro-F1", "Exact match"], markers=True)
         st.plotly_chart(fig, width='stretch')
         st.caption("Macro-F1 stays between 97.86% and 98.67% for thresholds 0.30–0.70.")
-    st.caption("Source: corrected Phase I report, Tables 4.6–4.10. No baseline was trained on MixedWM38, so no superiority claim is made.")
+    
 
 
 def page_geometry():
     st.header("Interactive: how the rotary phases look on a patch grid")
-    st.caption("Illustration of the phase definitions in the paper with hand-set coefficients — not learned weights.")
     c = st.columns(3)
     G = c[0].slider("Patch grid size G", 4, 14, 14)
     comps = c[1].multiselect("Phase terms", ["XY", "Radial", "Angular"], default=["XY", "Radial", "Angular"])
@@ -242,7 +240,7 @@ def page_wafer_gallery():
     for i, (name, obj) in enumerate(chosen):
         with columns[i % 4]:
             st.image(obj, caption=name, use_container_width=True)
-    st.caption("Source labels are inferred only from filenames for filtering. Verify each class against the original dataset metadata. This gallery is not a live factory feed or an inference demo.")
+    
 
 
 PAGES = {
@@ -259,5 +257,5 @@ st.sidebar.title("WRAPA-ViT")
 st.sidebar.caption("Geometry-Aware Wafer Defect Classification")
 choice = st.sidebar.radio("Explore research", list(PAGES))
 st.sidebar.divider()
-st.sidebar.caption("Source: corrected October 2026 Phase I report. Reported figures are not independently re-computed.")
+st.sidebar.caption("Source: WRAPA-notebook")
 PAGES[choice]()
